@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -10,544 +9,245 @@
 <meta name="theme-color" content="#1a6fc4">
 <title>Insulin Dose Calculator</title>
 <style>
-/* ── TOKENS ─────────────────────────────────────────── */
-:root {
-  --bg:       #f0f4f9;
-  --surf:     #ffffff;
-  --surf2:    #e8eef6;
-  --txt:      #0f1923;
-  --txt2:     #4a5568;
-  --border:   #c8d4e3;
-  --acc:      #1a6fc4;
-  --acc2:     #ffffff;
-  --danger:   #c0392b;
-  --warn-bg:  #fef9e7;
-  --warn-txt: #7d6608;
-  --ok:       #1e8449;
-  --focus:    #f39c12;
-  --r:        14px;
-  --r2:       10px;
-  --sh:       0 2px 8px rgba(0,0,0,.08);
-  --nav-h:    64px;
-}
-[data-theme="dark"] {
-  --bg:       #0d1117;
-  --surf:     #161b22;
-  --surf2:    #21262d;
-  --txt:      #e6edf3;
-  --txt2:     #8b949e;
-  --border:   #30363d;
-  --acc:      #58a6ff;
-  --acc2:     #0d1117;
-  --danger:   #f85149;
-  --warn-bg:  #2d1f00;
-  --warn-txt: #e3b341;
-  --ok:       #3fb950;
-  --focus:    #f0883e;
-  --sh:       0 2px 8px rgba(0,0,0,.4);
-}
-
-/* ── RESET ───────────────────────────────────────────── */
+:root{--bg:#f0f4f9;--surf:#fff;--surf2:#e8eef6;--txt:#0f1923;--txt2:#4a5568;--border:#c8d4e3;--acc:#1a6fc4;--acc2:#fff;--danger:#c0392b;--warn-bg:#fef9e7;--warn-txt:#7d6608;--r:14px;--r2:10px;--sh:0 2px 8px rgba(0,0,0,.07)}
+[data-theme="dark"]{--bg:#0d1117;--surf:#161b22;--surf2:#21262d;--txt:#e6edf3;--txt2:#8b949e;--border:#30363d;--acc:#58a6ff;--acc2:#0d1117;--danger:#f85149;--warn-bg:#2d1f00;--warn-txt:#e3b341}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{
--webkit-text-size-adjust:100%;
--webkit-tap-highlight-color:transparent;
-scroll-behavior:smooth;
-}
-body{
-font-family:-apple-system,BlinkMacSystemFont,“SF Pro Text”,“Segoe UI”,sans-serif;
-font-size:16px;
-line-height:1.5;
-background:var(–bg);
-color:var(–txt);
--webkit-font-smoothing:antialiased;
-padding-bottom:calc(var(–nav-h) + 16px);
-min-height:100dvh;
-}
-
-/* ── LAYOUT ──────────────────────────────────────────── */
-.wrap{max-width:640px;margin:0 auto;padding:12px 12px 0}
-
-/* ── HEADER ──────────────────────────────────────────── */
-.hdr{
-display:flex;align-items:center;justify-content:space-between;
-gap:10px;padding:14px 0 10px;
-}
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;font-size:16px;line-height:1.5;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased;padding-bottom:32px}
+.wrap{max-width:600px;margin:0 auto;padding:12px}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0 10px}
 .hdr h1{font-size:1.15rem;font-weight:700;line-height:1.2;flex:1}
-.hdr h1 span{display:block;font-size:.75rem;font-weight:400;color:var(–txt2);margin-top:2px}
-
-/* ── THEME BTN ───────────────────────────────────────── */
-.theme-btn{
-background:var(–surf);border:1.5px solid var(–border);
-color:var(–txt);border-radius:var(–r2);
-padding:0 14px;height:44px;font-size:.9rem;font-weight:500;
-cursor:pointer;white-space:nowrap;flex-shrink:0;
-font-family:inherit;
-}
-
-/* ── DISCLAIMER ──────────────────────────────────────── */
-.disc{
-background:var(–warn-bg);color:var(–warn-txt);
-border:1px solid color-mix(in srgb,var(–warn-txt) 30%,transparent);
-border-radius:var(–r2);padding:12px 14px;
-font-size:.875rem;line-height:1.45;margin-bottom:12px;
-}
-.disc strong{display:block;margin-bottom:3px;font-size:.9rem}
-
-/* ── CARD ────────────────────────────────────────────── */
-.card{
-background:var(–surf);border:1px solid var(–border);
-border-radius:var(–r);padding:16px;margin-bottom:12px;
-box-shadow:var(–sh);
-}
-.card-title{
-font-size:1rem;font-weight:700;margin-bottom:14px;
-display:flex;align-items:center;gap:8px;
-}
-.card-title .icon{font-size:1.1rem}
-
-/* ── SEGMENT TOGGLE ──────────────────────────────────── */
-.seg{
-display:flex;border:1.5px solid var(–border);
-border-radius:var(–r2);overflow:hidden;
-background:var(–surf2);margin-bottom:14px;
-}
+.hdr h1 span{display:block;font-size:.72rem;font-weight:400;color:var(--txt2);margin-top:2px}
+.theme-btn{background:var(--surf);border:1.5px solid var(--border);color:var(--txt);border-radius:var(--r2);padding:0 14px;height:44px;font-size:.95rem;cursor:pointer;font-family:inherit;flex-shrink:0}
+.disc{background:var(--warn-bg);color:var(--warn-txt);border-radius:var(--r2);padding:11px 14px;font-size:.85rem;margin-bottom:12px;line-height:1.45}
+.disc strong{display:block;margin-bottom:2px}
+.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.card-title{font-size:1rem;font-weight:700;margin-bottom:14px}
+.ccard{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;box-shadow:var(--sh);overflow:hidden}
+.ccard-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none;-webkit-user-select:none;min-height:52px}
+.ccard-hdr h2{font-size:1rem;font-weight:700}
+.ccard-arrow{font-size:1.3rem;color:var(--txt2);line-height:1}
+.ccard-body{padding:0 16px 16px;display:none}
+.ccard-body.open{display:block}
+.seg-lbl{font-size:.78rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.seg{display:flex;border:1.5px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--surf2);margin-bottom:14px}
 .seg input{position:absolute;opacity:0;pointer-events:none}
-.seg label{
-flex:1;text-align:center;padding:0 8px;height:48px;
-display:flex;align-items:center;justify-content:center;
-font-size:.9rem;font-weight:600;cursor:pointer;
-color:var(–txt2);transition:background .15s,color .15s;
-user-select:none;-webkit-user-select:none;
-}
-.seg input:checked+label{background:var(–acc);color:var(–acc2)}
-.seg-label{
-font-size:.8rem;font-weight:600;color:var(–txt2);
-text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;
-}
-
-/* ── FORM ROWS ───────────────────────────────────────── */
+.seg label{flex:1;text-align:center;height:48px;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:background .15s,color .15s;user-select:none;-webkit-user-select:none}
+.seg input:checked+label{background:var(--acc);color:var(--acc2)}
 .row{margin-bottom:14px}
 .row:last-child{margin-bottom:0}
-label.lbl{
-display:block;font-size:.9rem;font-weight:600;
-color:var(–txt);margin-bottom:6px;
-}
-.hint{font-size:.8rem;color:var(–txt2);margin-top:4px}
-.err{
-font-size:.8rem;color:var(–danger);margin-top:4px;
-min-height:1.1em;font-weight:500;
-}
-
-/* ── INPUTS ──────────────────────────────────────────── */
-input[type=“number”],
-input[type=“text”]{
-width:100%;
-height:52px;
-padding:0 16px;
-font-size:1.05rem;
-font-family:inherit;
-border:1.5px solid var(–border);
-border-radius:var(–r2);
-background:var(–surf);
-color:var(–txt);
-appearance:none;
--webkit-appearance:none;
-transition:border-color .15s,box-shadow .15s;
-}
-input[type=“number”]:focus,
-input[type=“text”]:focus{
-outline:none;
-border-color:var(–acc);
-box-shadow:0 0 0 3px color-mix(in srgb,var(–acc) 20%,transparent);
-}
-input[aria-invalid=“true”]{border-color:var(–danger)}
-/* Kill iOS inner shadow */
-input{-webkit-appearance:none;border-radius:var(–r2)}
-
-/* ── BUTTONS ─────────────────────────────────────────── */
-.btn{
-display:inline-flex;align-items:center;justify-content:center;gap:6px;
-height:52px;padding:0 20px;border-radius:var(–r2);
-font-size:1rem;font-weight:600;font-family:inherit;
-border:1.5px solid var(–border);background:var(–surf);
-color:var(–txt);cursor:pointer;
--webkit-tap-highlight-color:transparent;
-transition:opacity .15s,transform .1s;
-user-select:none;-webkit-user-select:none;
-text-align:center;
-}
-.btn:active{transform:scale(.97);opacity:.85}
-.btn.primary{background:var(–acc);color:var(–acc2);border-color:var(–acc)}
-.btn.danger-soft{color:var(–danger);border-color:var(–danger)}
-.btn-row{display:flex;gap:10px}
+label.lbl{display:block;font-size:.9rem;font-weight:600;margin-bottom:6px}
+.hint{font-size:.8rem;color:var(--txt2);margin-top:4px}
+.err{font-size:.8rem;color:var(--danger);margin-top:4px;min-height:1em;font-weight:500}
+input[type="number"],input[type="text"]{width:100%;height:52px;padding:0 16px;font-size:1.05rem;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--r2);background:var(--surf);color:var(--txt);-webkit-appearance:none;appearance:none;transition:border-color .15s,box-shadow .15s}
+input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
+input[aria-invalid="true"]{border-color:var(--danger)}
+.check-row{display:flex;align-items:flex-start;gap:12px;background:var(--surf2);border-radius:var(--r2);padding:12px 14px;margin-bottom:14px}
+.check-row input[type="checkbox"]{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--acc)}
+.check-row label{font-size:.9rem;font-weight:600;cursor:pointer;display:block}
+.est-readout{background:var(--surf2);border-left:3px solid var(--acc);border-radius:var(--r2);padding:11px 14px;margin-top:10px;font-size:.9rem;line-height:1.6}
+.est-readout strong{color:var(--acc)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 20px;border-radius:var(--r2);font-size:1rem;font-weight:700;font-family:inherit;border:1.5px solid var(--border);background:var(--surf);color:var(--txt);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity .15s,transform .1s;user-select:none;-webkit-user-select:none}
+.btn:active{transform:scale(.96);opacity:.8}
+.btn.primary{background:var(--acc);color:var(--acc2);border-color:var(--acc)}
+.btn.sm{height:44px;font-size:.9rem;padding:0 16px}
+.btn-row{display:flex;gap:10px;margin-top:14px}
 .btn-row .btn{flex:1}
-.btn.sm{height:44px;font-size:.9rem;padding:0 14px}
-
-/* ── CHECKBOX ────────────────────────────────────────── */
-.check-row{
-display:flex;align-items:flex-start;gap:12px;
-background:var(–surf2);border-radius:var(–r2);
-padding:12px 14px;margin-bottom:14px;
-}
-.check-row input[type=“checkbox”]{
-width:22px;height:22px;flex-shrink:0;margin-top:1px;
-accent-color:var(–acc);cursor:pointer;
-}
-.check-row .check-text label{
-font-size:.9rem;font-weight:600;cursor:pointer;
-}
-.check-row .check-text .hint{margin-top:2px}
-
-/* ── ESTIMATE READOUT ────────────────────────────────── */
-.est-readout{
-background:var(–surf2);border-radius:var(–r2);
-padding:12px 14px;margin-top:10px;font-size:.9rem;
-border-left:3px solid var(–acc);
-}
-.est-readout strong{color:var(–acc)}
-
-/* ── RESULTS ─────────────────────────────────────────── */
-.result-grid{
-display:grid;grid-template-columns:1fr 1fr;
-gap:10px;margin-bottom:12px;
-}
-.rcard{
-background:var(–surf2);border:1px solid var(–border);
-border-radius:var(–r2);padding:14px 12px;
-}
-.rcard.full{grid-column:1/-1;background:var(–acc);border-color:var(–acc)}
-.rcard.full .rlabel,.rcard.full .rvalue,.rcard.full .runit{color:var(–acc2)}
-.rlabel{
-font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;
-color:var(–txt2);margin-bottom:4px;font-weight:600;
-}
-.rvalue{
-font-size:1.6rem;font-weight:800;
-font-variant-numeric:tabular-nums;line-height:1;
-}
-.runit{font-size:.85rem;font-weight:400;opacity:.75;margin-left:2px}
-
-.round-row{display:flex;gap:10px;margin-bottom:12px}
+.dimmed{opacity:.35;pointer-events:none}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.rcard{background:var(--surf2);border:1px solid var(--border);border-radius:var(--r2);padding:14px 12px}
+.rcard.full{grid-column:1/-1;background:var(--acc);border-color:var(--acc)}
+.rcard.full .rlbl,.rcard.full .rval,.rcard.full .runit{color:var(--acc2)}
+.rlbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--txt2);margin-bottom:4px;font-weight:700}
+.rval{font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.runit{font-size:.82rem;font-weight:400;opacity:.75;margin-left:2px}
+.round-row{display:flex;gap:10px;margin-bottom:10px}
 .round-row .rcard{flex:1}
-
-.formula{
-background:var(–surf2);border-left:3px solid var(–acc);
-border-radius:var(–r2);padding:12px 14px;
-font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-font-size:.82rem;white-space:pre-wrap;word-break:break-word;
-color:var(–txt);line-height:1.6;margin-top:8px;
-}
-.note-pill{
-display:inline-flex;align-items:center;gap:6px;
-background:var(–warn-bg);color:var(–warn-txt);
-border-radius:999px;padding:7px 12px;
-font-size:.83rem;font-weight:500;margin-bottom:10px;
-}
-.placeholder-msg{
-color:var(–txt2);font-size:.95rem;
-padding:8px 0;text-align:center;
-}
-
-/* ── FOOD LOOKUP ─────────────────────────────────────── */
+.formula{background:var(--surf2);border-left:3px solid var(--acc);border-radius:var(--r2);padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;white-space:pre-wrap;word-break:break-word;color:var(--txt);line-height:1.6;margin-top:8px}
+.note-pill{display:inline-flex;align-items:center;background:var(--warn-bg);color:var(--warn-txt);border-radius:999px;padding:7px 12px;font-size:.83rem;font-weight:500;margin-bottom:10px}
+.placeholder-msg{color:var(--txt2);font-size:.95rem;padding:4px 0}
 .food-search-row{display:flex;gap:8px;margin-bottom:10px}
 .food-search-row input{flex:1}
-.food-list{
-border:1px solid var(–border);border-radius:var(–r2);
-background:var(–surf2);
-max-height:260px;overflow-y:auto;
--webkit-overflow-scrolling:touch;
-}
-.food-item{
-display:flex;align-items:center;
-padding:11px 12px;gap:10px;
-border-bottom:1px solid var(–border);
-}
+.food-list{border:1px solid var(--border);border-radius:var(--r2);background:var(--surf2);max-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.food-item{display:flex;align-items:center;padding:11px 12px;gap:10px;border-bottom:1px solid var(--border)}
 .food-item:last-child{border-bottom:none}
 .food-info{flex:1;min-width:0}
-.food-name{font-weight:600;font-size:.92rem;
-white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.food-detail{font-size:.78rem;color:var(–txt2);margin-top:2px}
+.food-name{font-weight:600;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.food-detail{font-size:.78rem;color:var(--txt2);margin-top:2px}
 .food-ctrl{display:flex;gap:6px;align-items:center;flex-shrink:0}
 .portion{width:64px;height:44px;padding:0 8px;font-size:.95rem}
-.add-btn{
-height:44px;padding:0 12px;font-size:.88rem;font-weight:600;
-background:var(–acc);color:var(–acc2);border:none;
-border-radius:var(–r2);cursor:pointer;white-space:nowrap;
-font-family:inherit;
--webkit-tap-highlight-color:transparent;
-}
-.food-empty{
-padding:20px;text-align:center;
-color:var(–txt2);font-size:.9rem;
-}
-
-/* ── MEAL BUILDER ────────────────────────────────────── */
-.meal-box{
-background:var(–surf2);border-radius:var(–r2);
-padding:12px;margin-top:10px;
-}
-.meal-box h3{
-font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;
-color:var(–txt2);margin-bottom:8px;font-weight:700;
-}
-.meal-item{
-display:flex;align-items:center;justify-content:space-between;
-padding:7px 0;border-bottom:1px dashed var(–border);
-font-size:.9rem;gap:8px;
-}
+.add-btn{height:44px;padding:0 12px;font-size:.88rem;font-weight:700;background:var(--acc);color:var(--acc2);border:none;border-radius:var(--r2);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.food-empty{padding:20px;text-align:center;color:var(--txt2);font-size:.9rem}
+.meal-box{background:var(--surf2);border-radius:var(--r2);padding:12px;margin-top:10px}
+.meal-box-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--txt2);margin-bottom:8px}
+.meal-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border);font-size:.9rem;gap:8px}
 .meal-item:last-of-type{border-bottom:none}
-.meal-name{flex:1;min-width:0;
-white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.meal-g{color:var(–txt2);white-space:nowrap;font-size:.85rem}
-.rm-btn{
-background:transparent;border:none;color:var(–danger);
-font-size:1.2rem;padding:4px 8px;cursor:pointer;
-min-height:36px;min-width:36px;font-family:inherit;
--webkit-tap-highlight-color:transparent;
-}
-.meal-total-row{
-display:flex;justify-content:space-between;
-font-weight:700;font-size:.95rem;
-border-top:2px solid var(–border);padding-top:8px;margin-top:6px;
-}
-
-/* ── COLLAPSIBLES ────────────────────────────────────── */
-details{
-background:var(–surf);border:1px solid var(–border);
-border-radius:var(–r);margin-bottom:10px;overflow:hidden;
-}
-details summary{
-display:flex;justify-content:space-between;align-items:center;
-padding:15px 16px;font-weight:700;font-size:.95rem;
-cursor:pointer;list-style:none;min-height:52px;
--webkit-tap-highlight-color:transparent;
-user-select:none;-webkit-user-select:none;
-}
+.meal-name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meal-g{color:var(--txt2);white-space:nowrap;font-size:.85rem}
+.rm-btn{background:transparent;border:none;color:var(--danger);font-size:1.2rem;padding:4px 8px;cursor:pointer;min-height:36px;min-width:36px;font-family:inherit}
+.meal-total-row{display:flex;justify-content:space-between;font-weight:700;font-size:.95rem;border-top:2px solid var(--border);padding-top:8px;margin-top:6px}
+details{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+details summary{display:flex;justify-content:space-between;align-items:center;padding:15px 16px;font-weight:700;font-size:.95rem;cursor:pointer;list-style:none;min-height:52px;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 details summary::-webkit-details-marker{display:none}
-details summary::after{
-content:”+”;font-size:1.4rem;color:var(–txt2);
-line-height:1;flex-shrink:0;
-}
-details[open] summary::after{content:“−”}
+details summary::after{content:"+";font-size:1.4rem;color:var(--txt2);line-height:1;flex-shrink:0}
+details[open] summary::after{content:"--"}
 .details-body{padding:0 16px 16px;font-size:.9rem}
 .details-body ul{padding-left:18px}
 .details-body li{margin-bottom:7px;line-height:1.45}
-
-/* ── BOTTOM NAV ──────────────────────────────────────── */
-.bottom-nav{
-position:fixed;bottom:0;left:0;right:0;
-height:var(–nav-h);
-background:var(–surf);
-border-top:1px solid var(–border);
-display:flex;align-items:center;
-padding:0 8px;
-gap:4px;
-z-index:100;
-box-shadow:0 -2px 12px rgba(0,0,0,.08);
-}
-.nav-btn{
-flex:1;height:48px;border-radius:var(–r2);
-border:none;background:transparent;color:var(–txt2);
-font-size:.72rem;font-weight:600;font-family:inherit;
-cursor:pointer;display:flex;flex-direction:column;
-align-items:center;justify-content:center;gap:3px;
--webkit-tap-highlight-color:transparent;
-transition:background .15s,color .15s;
-user-select:none;-webkit-user-select:none;
-}
-.nav-btn .nav-icon{font-size:1.3rem;line-height:1}
-.nav-btn.active,.nav-btn:active{
-color:var(–acc);background:color-mix(in srgb,var(–acc) 10%,transparent);
-}
-
-/* ── TOAST ───────────────────────────────────────────── */
-.toast{
-position:fixed;bottom:calc(var(–nav-h) + 12px);
-left:50%;transform:translateX(-50%) translateY(8px);
-background:var(–txt);color:var(–bg);
-padding:10px 20px;border-radius:999px;font-size:.9rem;
-opacity:0;transition:opacity .2s,transform .2s;
-pointer-events:none;z-index:200;white-space:nowrap;
-}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--txt);color:var(--bg);padding:10px 22px;border-radius:999px;font-size:.9rem;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:200;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ── SECTION VISIBILITY ──────────────────────────────── */
-.section{display:none}
-.section.active{display:block}
-
-/* ── DIMMED ──────────────────────────────────────────── */
-.dimmed{opacity:.4;pointer-events:none}
-
-/* ── SR ONLY ─────────────────────────────────────────── */
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;
-clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-/* ── PRINT ───────────────────────────────────────────── */
-@media print{
-.bottom-nav,.theme-btn,.btn-row,.food-search-row,
-.meal-box,.disc,.check-row{display:none!important}
-body{padding-bottom:0}
-.section{display:block!important}
-}
+@media print{.theme-btn,.btn-row,.food-search-row,.meal-box,.check-row,details{display:none!important}}
 </style>
-
 </head>
 <body>
-
 <div class="wrap">
 
-  <!-- HEADER -->
+<header class="hdr">
+  <h1>Insulin Dose Calculator<span>Personal use only -- not medical advice</span></h1>
+  <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark mode">Moon</button>
+</header>
 
-  <header class="hdr">
-    <h1>
-      Insulin Dose Calc
-      <span>Personal use only — not medical advice</span>
-    </h1>
-    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark mode">
-      <span id="themeIcon">🌙</span>
-    </button>
-  </header>
+<div class="disc" role="alert">
+  <strong>Not medical advice</strong>
+  Always confirm dosing with your clinician. If blood sugar is low, follow your prescribed hypoglycemia plan and do not use this tool.
+</div>
 
-  <!-- DISCLAIMER -->
-
-  <div class="disc" role="alert">
-    <strong>⚠ Not medical advice</strong>
-    Always confirm dosing with your clinician. If blood sugar is low, follow your prescribed hypoglycemia plan — do not use this tool.
+<!-- SETTINGS collapsed by default -->
+<div class="ccard" id="settingsCard">
+  <div class="ccard-hdr" id="settingsToggle" role="button" tabindex="0" aria-expanded="false" aria-controls="settingsBody">
+    <h2>Settings</h2>
+    <span class="ccard-arrow" id="settingsArrow">+</span>
   </div>
-
-  <!-- ══════════════════════════════════════════
-       SECTION 1 — SETTINGS
-       ══════════════════════════════════════════ -->
-
-  <div class="section active" id="sec-settings">
-
-```
-<div class="card">
-  <div class="card-title"><span class="icon">⚙️</span> Settings</div>
-
-  <div class="seg-label">Blood glucose units</div>
-  <div class="seg" role="radiogroup" aria-label="Blood glucose units">
-    <input type="radio" id="u-mgdl" name="unit" value="mgdl" checked>
-    <label for="u-mgdl">mg/dL</label>
-    <input type="radio" id="u-mmol" name="unit" value="mmol">
-    <label for="u-mmol">mmol/L</label>
-  </div>
-
-  <div class="seg-label">Calculation mode</div>
-  <div class="seg" role="radiogroup" aria-label="Calculation mode">
-    <input type="radio" id="m-manual" name="mode" value="manual" checked>
-    <label for="m-manual">I know my ratios</label>
-    <input type="radio" id="m-estimate" name="mode" value="estimate">
-    <label for="m-estimate">Estimate from TDD</label>
-  </div>
-
-  <div class="check-row">
-    <input type="checkbox" id="clinOnly" aria-describedby="clinOnly-hint">
-    <div class="check-text">
-      <label for="clinOnly">Use clinician-provided values only</label>
-      <div class="hint" id="clinOnly-hint">Locks to manual mode (safer default)</div>
+  <div class="ccard-body" id="settingsBody">
+    <div style="height:2px"></div>
+    <div class="seg-lbl">Blood glucose units</div>
+    <div class="seg" role="radiogroup" aria-label="Blood glucose units">
+      <input type="radio" id="u-mgdl" name="unit" value="mgdl" checked>
+      <label for="u-mgdl">mg/dL</label>
+      <input type="radio" id="u-mmol" name="unit" value="mmol">
+      <label for="u-mmol">mmol/L</label>
+    </div>
+    <div class="seg-lbl">Calculation mode</div>
+    <div class="seg" role="radiogroup" aria-label="Calculation mode">
+      <input type="radio" id="m-manual" name="mode" value="manual" checked>
+      <label for="m-manual">I know my ratios</label>
+      <input type="radio" id="m-estimate" name="mode" value="estimate">
+      <label for="m-estimate">Estimate from TDD</label>
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="clinOnly">
+      <div>
+        <label for="clinOnly">Use clinician-provided values only</label>
+        <div class="hint">Locks to manual mode (safer default)</div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="card" id="manual-card">
-  <div class="card-title"><span class="icon">🔢</span> Your Ratios</div>
-
+<!-- MANUAL RATIOS -->
+<div class="card" id="manualCard">
+  <div class="card-title">Your Ratios</div>
   <div class="row">
-    <label class="lbl" for="carbRatio">Carb ratio (grams per 1 unit)</label>
-    <input type="number" id="carbRatio" inputmode="decimal" min="0" step="any"
-           placeholder="e.g. 10" aria-describedby="carbRatio-err">
+    <label class="lbl" for="carbRatio">Carb ratio -- grams of carbs per 1 unit</label>
+    <input type="number" id="carbRatio" inputmode="decimal" min="0" step="any" placeholder="e.g. 10" aria-describedby="carbRatio-err">
     <div class="hint">1 unit covers this many grams of carbs</div>
     <div class="err" id="carbRatio-err" role="alert"></div>
   </div>
-
   <div class="row">
-    <label class="lbl" for="isf">
-      Sensitivity factor <span id="isf-unit-lbl">(mg/dL per unit)</span>
-    </label>
-    <input type="number" id="isf" inputmode="decimal" min="0" step="any"
-           placeholder="e.g. 50" aria-describedby="isf-err">
-    <div class="hint">How much 1 unit drops your blood glucose</div>
+    <label class="lbl" for="isf">Sensitivity factor <span id="isfUnitLbl">(mg/dL per unit)</span></label>
+    <input type="number" id="isf" inputmode="decimal" min="0" step="any" placeholder="e.g. 50" aria-describedby="isf-err">
+    <div class="hint">How much 1 unit lowers your blood glucose</div>
     <div class="err" id="isf-err" role="alert"></div>
   </div>
 </div>
 
-<div class="card" id="tdd-card" style="display:none">
-  <div class="card-title"><span class="icon">📊</span> Total Daily Insulin</div>
-
+<!-- TDD ESTIMATE -->
+<div class="card" id="tddCard" style="display:none">
+  <div class="card-title">Total Daily Insulin</div>
   <div class="row">
     <label class="lbl" for="tdd">Total daily insulin dose (units)</label>
-    <input type="number" id="tdd" inputmode="decimal" min="0" step="any"
-           placeholder="e.g. 40" aria-describedby="tdd-err">
+    <input type="number" id="tdd" inputmode="decimal" min="0" step="any" placeholder="e.g. 40" aria-describedby="tdd-err">
     <div class="hint">Basal + bolus combined over 24 hours</div>
     <div class="err" id="tdd-err" role="alert"></div>
   </div>
-
-  <div class="est-readout" id="est-readout" hidden>
-    Carb ratio: <strong id="est-cr">–</strong> &nbsp;·&nbsp;
-    ISF: <strong id="est-isf">–</strong>
-    <div class="hint" style="margin-top:6px">Rough estimates — verify with your clinician</div>
+  <div class="est-readout" id="estReadout" hidden>
+    Carb ratio: <strong id="estCr">--</strong> &nbsp;|&nbsp; ISF: <strong id="estIsf">--</strong>
+    <div class="hint" style="margin-top:4px">Rough estimates only -- confirm with your clinician</div>
   </div>
 </div>
-```
 
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       SECTION 2 — MEAL
-       ══════════════════════════════════════════ -->
-
-  <div class="section" id="sec-meal">
-
-```
+<!-- MEAL AND GLUCOSE -->
 <div class="card">
-  <div class="card-title"><span class="icon">🍽️</span> Meal & Glucose</div>
-
+  <div class="card-title">Meal &amp; Glucose</div>
   <div class="row">
-    <label class="lbl" for="carbs">Carbohydrates (grams)</label>
-    <input type="number" id="carbs" inputmode="decimal" min="0" step="1"
-           placeholder="e.g. 45" aria-describedby="carbs-err">
+    <label class="lbl" for="carbs">Carbohydrates in meal (grams)</label>
+    <input type="number" id="carbs" inputmode="decimal" min="0" step="1" placeholder="e.g. 45" aria-describedby="carbs-err">
     <div class="err" id="carbs-err" role="alert"></div>
   </div>
-
   <div class="row">
-    <label class="lbl" for="curBg">
-      Current blood glucose <span id="bg-unit-lbl1">(mg/dL)</span>
-    </label>
-    <input type="number" id="curBg" inputmode="decimal" min="0" step="any"
-           placeholder="e.g. 180" aria-describedby="curBg-err">
+    <label class="lbl" for="curBg">Current blood glucose <span id="bgLbl1">(mg/dL)</span></label>
+    <input type="number" id="curBg" inputmode="decimal" min="0" step="any" placeholder="e.g. 180" aria-describedby="curBg-err">
     <div class="err" id="curBg-err" role="alert"></div>
   </div>
-
   <div class="row">
-    <label class="lbl" for="tgtBg">
-      Target blood glucose <span id="bg-unit-lbl2">(mg/dL)</span>
-    </label>
-    <input type="number" id="tgtBg" inputmode="decimal" min="0" step="any"
-           placeholder="e.g. 110" aria-describedby="tgtBg-err">
+    <label class="lbl" for="tgtBg">Target blood glucose <span id="bgLbl2">(mg/dL)</span></label>
+    <input type="number" id="tgtBg" inputmode="decimal" min="0" step="any" placeholder="e.g. 110" aria-describedby="tgtBg-err">
     <div class="err" id="tgtBg-err" role="alert"></div>
   </div>
-
   <div class="btn-row">
-    <button class="btn danger-soft sm" id="resetBtn" type="button">Reset</button>
+    <button class="btn sm" id="resetBtn" type="button">Reset</button>
     <button class="btn primary" id="calcBtn" type="button">Calculate</button>
   </div>
 </div>
 
-<!-- Food lookup -->
-<div class="card">
-  <div class="card-title"><span class="icon">🔍</span> Food Carb Lookup</div>
-  <div class="hint" style="margin-bottom:10px">Search, adjust servings, then tap Add. Use "Apply total" to fill the carbs field.</div>
+<!-- RESULTS -->
+<div class="card" id="resultsCard">
+  <div class="card-title">Results</div>
+  <p class="placeholder-msg" id="resultsPlaceholder">Enter your values above and tap Calculate.</p>
+  <div id="resultsBody" hidden>
+    <div id="corrNote" class="note-pill" hidden></div>
+    <div class="result-grid">
+      <div class="rcard">
+        <div class="rlbl">Carb dose</div>
+        <div class="rval"><span id="rCarb">--</span><span class="runit">u</span></div>
+      </div>
+      <div class="rcard">
+        <div class="rlbl">Correction</div>
+        <div class="rval"><span id="rCorr">--</span><span class="runit">u</span></div>
+      </div>
+      <div class="rcard full">
+        <div class="rlbl">Total mealtime dose</div>
+        <div class="rval"><span id="rTotal">--</span><span class="runit">units</span></div>
+      </div>
+    </div>
+    <div class="round-row">
+      <div class="rcard">
+        <div class="rlbl">Nearest 0.5 unit</div>
+        <div class="rval"><span id="rHalf">--</span><span class="runit">u</span></div>
+      </div>
+      <div class="rcard">
+        <div class="rlbl">Nearest whole unit</div>
+        <div class="rval"><span id="rWhole">--</span><span class="runit">u</span></div>
+      </div>
+    </div>
+    <div class="seg-lbl" style="margin-top:8px">Formulas used</div>
+    <div class="formula" id="formulaBox"></div>
+    <div class="btn-row">
+      <button class="btn sm" id="copyBtn" type="button">Copy results</button>
+      <button class="btn sm" id="printBtn" type="button">Print</button>
+    </div>
+  </div>
+</div>
 
+<!-- FOOD LOOKUP -->
+<div class="card">
+  <div class="card-title">Food Carb Lookup</div>
+  <p class="hint" style="margin-bottom:12px">Search, set servings, tap Add. Then tap Use total to fill the carbs field.</p>
   <div class="food-search-row">
-    <input type="text" id="foodQ" placeholder="Search food or brand…" autocomplete="off"
-           autocorrect="off" spellcheck="false">
+    <input type="text" id="foodQ" placeholder="Search food or brand..." autocomplete="off" autocorrect="off" spellcheck="false">
     <button class="btn sm" id="clearQ" type="button">Clear</button>
   </div>
-
   <div class="food-list" id="foodList" role="listbox" aria-label="Food results"></div>
-
   <details style="margin-top:10px">
     <summary>Add a custom food</summary>
     <div class="details-body">
@@ -556,105 +256,43 @@ body{padding-bottom:0}
         <input type="text" id="cName" placeholder="e.g. My protein bar">
       </div>
       <div class="row">
-        <label class="lbl" for="cCarbs">Carbs per serving (g)</label>
+        <label class="lbl" for="cCarbs">Carbs per serving (grams)</label>
         <input type="number" id="cCarbs" inputmode="decimal" min="0" step="any" placeholder="e.g. 28">
       </div>
       <div class="row">
         <label class="lbl" for="cServ">Serving description</label>
         <input type="text" id="cServ" placeholder="e.g. 1 bar (45g)">
       </div>
-      <button class="btn primary" id="addCustom" type="button" style="width:100%">Add to list</button>
+      <button class="btn primary" id="addCustom" type="button" style="width:100%;margin-top:4px">Add to list</button>
     </div>
   </details>
-
   <div class="meal-box" id="mealBox" hidden>
-    <h3>Your meal</h3>
+    <div class="meal-box-title">Your meal</div>
     <div id="mealItems"></div>
     <div class="meal-total-row">
-      <span>Total carbs</span>
-      <span id="mealTotal">0 g</span>
+      <span>Total carbs</span><span id="mealTotal">0 g</span>
     </div>
-    <div class="btn-row" style="margin-top:10px">
+    <div class="btn-row">
       <button class="btn sm" id="clearMeal" type="button">Clear meal</button>
-      <button class="btn primary sm" id="applyMeal" type="button">Apply total</button>
+      <button class="btn primary sm" id="applyMeal" type="button">Use total</button>
     </div>
   </div>
 </div>
-```
 
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       SECTION 3 — RESULTS
-       ══════════════════════════════════════════ -->
-
-  <div class="section" id="sec-results">
-
-```
-<div class="card">
-  <div class="card-title"><span class="icon">💉</span> Results</div>
-
-  <div id="results-placeholder" class="placeholder-msg">
-    Fill in your meal and glucose values, then tap Calculate.
-  </div>
-
-  <div id="results-body" hidden>
-
-    <div id="correction-note" class="note-pill" hidden></div>
-
-    <div class="result-grid">
-      <div class="rcard">
-        <div class="rlabel">Carb dose</div>
-        <div class="rvalue"><span id="r-carb">–</span><span class="runit">u</span></div>
-      </div>
-      <div class="rcard">
-        <div class="rlabel">Correction</div>
-        <div class="rvalue"><span id="r-corr">–</span><span class="runit">u</span></div>
-      </div>
-      <div class="rcard full">
-        <div class="rlabel">Total mealtime dose</div>
-        <div class="rvalue"><span id="r-total">–</span><span class="runit">units</span></div>
-      </div>
-    </div>
-
-    <div class="round-row">
-      <div class="rcard">
-        <div class="rlabel">Nearest ½ unit</div>
-        <div class="rvalue"><span id="r-half">–</span><span class="runit">u</span></div>
-      </div>
-      <div class="rcard">
-        <div class="rlabel">Nearest whole</div>
-        <div class="rvalue"><span id="r-whole">–</span><span class="runit">u</span></div>
-      </div>
-    </div>
-
-    <div class="seg-label" style="margin-top:8px">Formulas used</div>
-    <div class="formula" id="formula-box"></div>
-
-    <div class="btn-row" style="margin-top:14px">
-      <button class="btn sm" id="copyBtn" type="button">📋 Copy results</button>
-      <button class="btn sm" id="printBtn" type="button">🖨 Print</button>
-    </div>
-
-  </div>
-</div>
-
-<!-- How it works -->
 <details>
   <summary>How this works</summary>
   <div class="details-body">
     <ul>
-      <li><strong>Carb dose</strong> = carbs ÷ carb ratio</li>
-      <li><strong>Correction</strong> = max(0, (current BG − target BG) ÷ ISF)</li>
+      <li><strong>Carb dose</strong> = carbs divided by carb ratio</li>
+      <li><strong>Correction</strong> = max(0, (current BG minus target BG) divided by ISF)</li>
       <li><strong>Total dose</strong> = carb dose + correction</li>
-      <li><strong>Est. carb ratio</strong> = 500 ÷ TDD</li>
-      <li><strong>Est. ISF</strong> = 1800 ÷ TDD (mg/dL per unit)</li>
+      <li><strong>Est. carb ratio</strong> = 500 divided by TDD</li>
+      <li><strong>Est. ISF</strong> = 1800 divided by TDD in mg/dL per unit</li>
     </ul>
-    <p style="margin-top:8px;font-size:.85rem;color:var(--txt2)">Correction math is always done in mg/dL internally. mmol/L values are converted using 1 mmol/L = 18 mg/dL.</p>
+    <p style="margin-top:8px;font-size:.85rem;color:var(--txt2)">mmol/L values are converted to mg/dL internally using 1 mmol/L = 18 mg/dL.</p>
   </div>
 </details>
 
-<!-- Safety -->
 <details>
   <summary>Safety notes</summary>
   <div class="details-body">
@@ -662,610 +300,145 @@ body{padding-bottom:0}
       <li>This tool does not replace your clinician or prescribed insulin plan.</li>
       <li>Sensitivity varies by person, time of day, activity, and illness.</li>
       <li>Estimated ratios from TDD are rough starting points only.</li>
-      <li>If blood sugar is low — follow your hypoglycemia plan, do not dose from this app.</li>
-      <li>This app does not account for insulin on board (IOB), illness, or exercise.</li>
+      <li>If blood sugar is low, follow your hypoglycemia plan and do not dose from this app.</li>
+      <li>This app does not account for insulin on board, illness, or exercise.</li>
     </ul>
   </div>
 </details>
 
-<!-- Privacy -->
 <details>
   <summary>Privacy</summary>
   <div class="details-body">
-    <p>Runs entirely in your browser. No data is sent anywhere. No cookies, no analytics, no storage. Closing the tab clears everything.</p>
+    <p>Runs entirely in your browser. No data sent anywhere. No cookies, analytics, or storage. Closing the tab clears everything.</p>
   </div>
 </details>
-```
 
-  </div>
-
-  <div style="height:20px"></div>
 </div>
-
-<!-- BOTTOM NAV -->
-
-<nav class="bottom-nav" aria-label="Main navigation">
-  <button class="nav-btn active" id="nav-settings" type="button" aria-label="Settings">
-    <span class="nav-icon">⚙️</span>
-    <span>Settings</span>
-  </button>
-  <button class="nav-btn" id="nav-meal" type="button" aria-label="Meal">
-    <span class="nav-icon">🍽️</span>
-    <span>Meal</span>
-  </button>
-  <button class="nav-btn" id="nav-results" type="button" aria-label="Results">
-    <span class="nav-icon">💉</span>
-    <span>Results</span>
-  </button>
-</nav>
-
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-// ── CONSTANTS ────────────────────────────────────────────
-const MMOL = 18;
+var MMOL=18;
+var S={unit:'mgdl',mode:'manual',clinOnly:false,meal:[]};
+function G(id){return document.getElementById(id)}
+function fmt(n,d){if(d===undefined)d=2;return isFinite(n)?n.toFixed(d):'--'}
+function toast(msg){var el=G('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('show')},1800)}
+function setErr(id,msg){var e=G(id+'-err'),i=G(id);if(e)e.textContent=msg||'';if(i)i.setAttribute('aria-invalid',msg?'true':'false')}
+function clearErrs(){['carbRatio','isf','tdd','carbs','curBg','tgtBg'].forEach(function(id){setErr(id,'')})}
 
-// ── STATE ─────────────────────────────────────────────────
-const S = { unit:'mgdl', mode:'manual', clinOnly:false, meal:[] };
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);G('themeBtn').textContent=t==='dark'?'Sun':'Moon'}
+function toggleSettings(){var b=G('settingsBody'),a=G('settingsArrow'),h=G('settingsToggle'),o=b.classList.contains('open');b.classList.toggle('open',!o);a.textContent=o?'+':'--';h.setAttribute('aria-expanded',String(!o))}
 
-// ── DOM REFS ──────────────────────────────────────────────
-const G = (id) => document.getElementById(id);
-const E = {
-  themeBtn:   G('themeBtn'),
-  themeIcon:  G('themeIcon'),
-  unitMgdl:   G('u-mgdl'),
-  unitMmol:   G('u-mmol'),
-  modeManual: G('m-manual'),
-  modeEst:    G('m-estimate'),
-  clinOnly:   G('clinOnly'),
-  manualCard: G('manual-card'),
-  tddCard:    G('tdd-card'),
-  carbRatio:  G('carbRatio'),
-  isf:        G('isf'),
-  isfUnitLbl: G('isf-unit-lbl'),
-  tdd:        G('tdd'),
-  estReadout: G('est-readout'),
-  estCr:      G('est-cr'),
-  estIsf:     G('est-isf'),
-  carbs:      G('carbs'),
-  curBg:      G('curBg'),
-  tgtBg:      G('tgtBg'),
-  bgLbl1:     G('bg-unit-lbl1'),
-  bgLbl2:     G('bg-unit-lbl2'),
-  calcBtn:    G('calcBtn'),
-  resetBtn:   G('resetBtn'),
-  copyBtn:    G('copyBtn'),
-  printBtn:   G('printBtn'),
-  rCarb:      G('r-carb'),
-  rCorr:      G('r-corr'),
-  rTotal:     G('r-total'),
-  rHalf:      G('r-half'),
-  rWhole:     G('r-whole'),
-  corrNote:   G('correction-note'),
-  formulaBox: G('formula-box'),
-  rPlaceholder: G('results-placeholder'),
-  rBody:      G('results-body'),
-  toast:      G('toast'),
-  foodQ:      G('foodQ'),
-  clearQ:     G('clearQ'),
-  foodList:   G('foodList'),
-  cName:      G('cName'),
-  cCarbs:     G('cCarbs'),
-  cServ:      G('cServ'),
-  addCustom:  G('addCustom'),
-  mealBox:    G('mealBox'),
-  mealItems:  G('mealItems'),
-  mealTotal:  G('mealTotal'),
-  clearMeal:  G('clearMeal'),
-  applyMeal:  G('applyMeal'),
-  navBtns: document.querySelectorAll('.nav-btn'),
-  sections: document.querySelectorAll('.section'),
-};
+function applyUnit(){var u=S.unit==='mmol'?'(mmol/L)':'(mg/dL)';G('bgLbl1').textContent=u;G('bgLbl2').textContent=u;G('isfUnitLbl').textContent=S.unit==='mmol'?'(mmol/L per unit)':'(mg/dL per unit)';updateEstReadout()}
+function applyMode(){var m=S.mode==='manual';G('manualCard').style.display=m?'':'none';G('tddCard').style.display=m?'none':'';var el=document.querySelector('label[for="m-estimate"]');if(S.clinOnly){el.classList.add('dimmed');G('m-estimate').disabled=true}else{el.classList.remove('dimmed');G('m-estimate').disabled=false}}
+function updateEstReadout(){if(S.mode!=='estimate'){G('estReadout').hidden=true;return}var tdd=parseFloat(G('tdd').value);if(!isFinite(tdd)||tdd<=0){G('estReadout').hidden=true;return}var cr=500/tdd,isf=1800/tdd,isfD=S.unit==='mmol'?isf/MMOL:isf,uL=S.unit==='mmol'?'mmol/L':'mg/dL';G('estCr').textContent=fmt(cr,1)+' g/unit';G('estIsf').textContent=fmt(isfD,1)+' '+uL+'/unit';G('estReadout').hidden=false}
 
-// ── FOOD DATA ─────────────────────────────────────────────
-// Edit this list to add your own common foods.
-// Each entry: { name, serving, carbs (g), tags (space-separated search terms) }
-let foods = [
-  // Breads & grains
-  {name:'White bread',serving:'1 slice (28g)',carbs:14,tags:'bread grain slice'},
-  {name:'Whole wheat bread',serving:'1 slice (28g)',carbs:12,tags:'bread grain slice'},
-  {name:'Bagel, plain',serving:'1 medium',carbs:48,tags:'bread grain breakfast'},
+function getInputs(){return{carbs:parseFloat(G('carbs').value),curBg:parseFloat(G('curBg').value),tgtBg:parseFloat(G('tgtBg').value),carbRatio:parseFloat(G('carbRatio').value),isf:parseFloat(G('isf').value),tdd:parseFloat(G('tdd').value)}}
+function validate(){clearErrs();var ok=true,v=getInputs();if(G('carbs').value===''||!isFinite(v.carbs)||v.carbs<0){if(G('carbs').value!=='')setErr('carbs','Enter 0 or more');ok=false}if(G('curBg').value===''||!isFinite(v.curBg)||v.curBg<=0){if(G('curBg').value!=='')setErr('curBg','Enter a positive number');ok=false}if(G('tgtBg').value===''||!isFinite(v.tgtBg)||v.tgtBg<=0){if(G('tgtBg').value!=='')setErr('tgtBg','Enter a positive number');ok=false}if(S.mode==='manual'){if(G('carbRatio').value===''||!isFinite(v.carbRatio)||v.carbRatio<=0){if(G('carbRatio').value!=='')setErr('carbRatio','Must be greater than zero');ok=false}if(G('isf').value===''||!isFinite(v.isf)||v.isf<=0){if(G('isf').value!=='')setErr('isf','Must be greater than zero');ok=false}}else{if(G('tdd').value===''||!isFinite(v.tdd)||v.tdd<=0){if(G('tdd').value!=='')setErr('tdd','Must be greater than zero');ok=false}}return ok}
+
+function calculate(){updateEstReadout();if(!validate()){toast('Please fill in all required fields');return}var v=getInputs(),curMg=S.unit==='mmol'?v.curBg*MMOL:v.curBg,tgtMg=S.unit==='mmol'?v.tgtBg*MMOL:v.tgtBg,cr,isfMg;if(S.mode==='manual'){cr=v.carbRatio;isfMg=S.unit==='mmol'?v.isf*MMOL:v.isf}else{cr=500/v.tdd;isfMg=1800/v.tdd}var carbD=v.carbs/cr,rawC=(curMg-tgtMg)/isfMg,corrD=Math.max(0,rawC),total=Math.max(0,carbD+corrD),rH=Math.round(total/0.5)*0.5,rW=Math.round(total);G('rCarb').textContent=fmt(carbD);G('rCorr').textContent=fmt(corrD);G('rTotal').textContent=fmt(total);G('rHalf').textContent=fmt(rH,1);G('rWhole').textContent=fmt(rW,0);if(rawC<0){G('corrNote').textContent='BG is below target -- no correction added. Follow your hypoglycemia plan if low.';G('corrNote').hidden=false}else{G('corrNote').hidden=true}var uL=S.unit==='mmol'?'mmol/L':'mg/dL',isfD=S.unit==='mmol'?isfMg/MMOL:isfMg,fml='';if(S.mode==='estimate'){fml+='carb ratio (est) = 500 / '+fmt(v.tdd,1)+' = '+fmt(cr,2)+' g/unit\n';fml+='ISF (est)        = 1800 / '+fmt(v.tdd,1)+' = '+fmt(isfMg,2)+' mg/dL/unit\n\n'}fml+='carb dose  = '+fmt(v.carbs,0)+' / '+fmt(cr,2)+' = '+fmt(carbD)+' units\n';fml+='correction = max(0, ('+fmt(v.curBg,1)+' - '+fmt(v.tgtBg,1)+') '+uL+' / '+fmt(isfD,2)+') = '+fmt(corrD)+' units\n';fml+='total dose = '+fmt(carbD)+' + '+fmt(corrD)+' = '+fmt(total)+' units';G('formulaBox').textContent=fml;G('resultsPlaceholder').hidden=true;G('resultsBody').hidden=false;G('resultsCard').scrollIntoView({behavior:'smooth',block:'start'})}
+
+function copyResults(){if(G('resultsBody').hidden){toast('No results yet');return}var v=getInputs(),uL=S.unit==='mmol'?'mmol/L':'mg/dL',text=['Insulin Dose Calculator Results','Mode: '+(S.mode==='manual'?'Manual ratios':'Estimated from TDD')+'  Units: '+uL,'Carbs: '+v.carbs+'g  Current BG: '+v.curBg+' '+uL+'  Target BG: '+v.tgtBg+' '+uL,'','Carb dose:   '+G('rCarb').textContent+' units','Correction:  '+G('rCorr').textContent+' units','Total dose:  '+G('rTotal').textContent+' units','Nearest 0.5: '+G('rHalf').textContent+' units','Nearest 1:   '+G('rWhole').textContent+' units','',G('formulaBox').textContent,'','Not medical advice -- confirm with your clinician'].join('\n');var ok=function(){toast('Copied!')},fail=function(){toast('Copy failed')};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok).catch(function(){legacyCopy(text,ok,fail)})}else{legacyCopy(text,ok,fail)}}
+function legacyCopy(t,ok,fail){try{var el=document.createElement('textarea');el.value=t;el.style.position='absolute';el.style.left='-9999px';document.body.appendChild(el);el.select();document.execCommand('copy');document.body.removeChild(el);ok()}catch(e){fail()}}
+
+function resetAll(){['carbRatio','isf','tdd','carbs','curBg','tgtBg','cName','cCarbs','cServ','foodQ'].forEach(function(id){var el=G(id);if(el)el.value=''});clearErrs();S.meal=[];renderMeal();renderFoods('');G('resultsPlaceholder').hidden=false;G('resultsBody').hidden=true;G('estReadout').hidden=true;toast('Reset')}
+
+var foods=[
+  {name:'White bread',serving:'1 slice (28g)',carbs:14,tags:'bread grain'},
+  {name:'Whole wheat bread',serving:'1 slice (28g)',carbs:12,tags:'bread grain'},
+  {name:'Bagel plain',serving:'1 medium',carbs:48,tags:'bread grain breakfast'},
   {name:'English muffin',serving:'1 muffin',carbs:26,tags:'bread breakfast'},
-  {name:'Flour tortilla, 8"',serving:'1 tortilla',carbs:24,tags:'bread mexican wrap'},
-  {name:'Corn tortilla, 6"',serving:'1 tortilla',carbs:12,tags:'bread mexican'},
-  {name:'White rice, cooked',serving:'1 cup',carbs:45,tags:'grain rice'},
-  {name:'Brown rice, cooked',serving:'1 cup',carbs:45,tags:'grain rice'},
-  {name:'Pasta, cooked',serving:'1 cup',carbs:43,tags:'grain italian noodle'},
-  {name:'Oatmeal, cooked',serving:'1 cup',carbs:28,tags:'grain breakfast oats'},
-  {name:'Quinoa, cooked',serving:'1 cup',carbs:39,tags:'grain'},
+  {name:'Flour tortilla 8in',serving:'1 tortilla',carbs:24,tags:'bread mexican wrap'},
+  {name:'Corn tortilla 6in',serving:'1 tortilla',carbs:12,tags:'bread mexican'},
+  {name:'White rice cooked',serving:'1 cup',carbs:45,tags:'grain rice'},
+  {name:'Brown rice cooked',serving:'1 cup',carbs:45,tags:'grain rice'},
+  {name:'Pasta cooked',serving:'1 cup',carbs:43,tags:'grain italian noodle'},
+  {name:'Oatmeal cooked',serving:'1 cup',carbs:28,tags:'grain breakfast oats'},
+  {name:'Quinoa cooked',serving:'1 cup',carbs:39,tags:'grain'},
   {name:'Corn flakes cereal',serving:'1 cup',carbs:24,tags:'cereal breakfast grain'},
-  // Fruits
-  {name:'Apple, medium',serving:'1 medium',carbs:25,tags:'fruit'},
-  {name:'Banana, medium',serving:'1 medium',carbs:27,tags:'fruit'},
-  {name:'Orange, medium',serving:'1 medium',carbs:15,tags:'fruit'},
+  {name:'Apple medium',serving:'1 medium',carbs:25,tags:'fruit'},
+  {name:'Banana medium',serving:'1 medium',carbs:27,tags:'fruit'},
+  {name:'Orange medium',serving:'1 medium',carbs:15,tags:'fruit'},
   {name:'Strawberries',serving:'1 cup',carbs:11,tags:'fruit berry'},
   {name:'Blueberries',serving:'1 cup',carbs:21,tags:'fruit berry'},
   {name:'Grapes',serving:'1 cup',carbs:16,tags:'fruit'},
   {name:'Watermelon',serving:'1 cup diced',carbs:11,tags:'fruit'},
   {name:'Pineapple',serving:'1 cup chunks',carbs:22,tags:'fruit'},
-  // Vegetables & starches
-  {name:'Potato, baked',serving:'1 medium',carbs:37,tags:'vegetable starch potato'},
-  {name:'Sweet potato, baked',serving:'1 medium',carbs:24,tags:'vegetable starch'},
-  {name:'French fries',serving:'medium (117g)',carbs:48,tags:'fast food potato fries'},
-  {name:'Corn kernels',serving:'1 cup',carbs:31,tags:'vegetable'},
+  {name:'Potato baked',serving:'1 medium',carbs:37,tags:'vegetable starch potato'},
+  {name:'Sweet potato baked',serving:'1 medium',carbs:24,tags:'vegetable starch'},
+  {name:'French fries',serving:'medium 117g',carbs:48,tags:'fast food potato fries'},
+  {name:'Corn kernels',serving:'1 cup',carbs:31,tags:'vegetable corn'},
   {name:'Green peas',serving:'1 cup',carbs:21,tags:'vegetable'},
-  {name:'Broccoli, cooked',serving:'1 cup',carbs:11,tags:'vegetable'},
-  {name:'Carrots, raw',serving:'1 cup chopped',carbs:12,tags:'vegetable'},
-  // Dairy
-  {name:'Milk, whole',serving:'1 cup (240ml)',carbs:12,tags:'dairy drink milk'},
-  {name:'Milk, skim',serving:'1 cup (240ml)',carbs:12,tags:'dairy drink milk'},
-  {name:'Yogurt, plain',serving:'1 cup',carbs:11,tags:'dairy'},
-  {name:'Yogurt, flavored',serving:'1 cup',carbs:33,tags:'dairy'},
+  {name:'Broccoli cooked',serving:'1 cup',carbs:11,tags:'vegetable'},
+  {name:'Carrots raw',serving:'1 cup chopped',carbs:12,tags:'vegetable'},
+  {name:'Milk whole',serving:'1 cup 240ml',carbs:12,tags:'dairy drink milk'},
+  {name:'Milk skim',serving:'1 cup 240ml',carbs:12,tags:'dairy drink milk'},
+  {name:'Yogurt plain',serving:'1 cup',carbs:11,tags:'dairy'},
+  {name:'Yogurt flavored',serving:'1 cup',carbs:33,tags:'dairy'},
   {name:'Oat milk',serving:'1 cup',carbs:16,tags:'dairy alternative drink'},
-  {name:'Almond milk, unsweetened',serving:'1 cup',carbs:1,tags:'dairy alternative drink'},
-  // Protein
-  {name:'Chicken breast, grilled',serving:'4 oz',carbs:0,tags:'protein meat chicken'},
-  {name:'Egg',serving:'1 large',carbs:0.6,tags:'protein egg'},
-  {name:'Black beans, cooked',serving:'1 cup',carbs:41,tags:'protein legume beans'},
-  {name:'Lentils, cooked',serving:'1 cup',carbs:40,tags:'protein legume'},
+  {name:'Almond milk unsweetened',serving:'1 cup',carbs:1,tags:'dairy alternative'},
+  {name:'Chicken breast grilled',serving:'4 oz',carbs:0,tags:'protein meat chicken'},
+  {name:'Egg',serving:'1 large',carbs:1,tags:'protein egg'},
+  {name:'Black beans cooked',serving:'1 cup',carbs:41,tags:'protein legume beans'},
+  {name:'Lentils cooked',serving:'1 cup',carbs:40,tags:'protein legume'},
   {name:'Hummus',serving:'2 tbsp',carbs:4,tags:'protein legume dip'},
-  // Snacks & sweets
-  {name:'Potato chips',serving:'1 oz (~15 chips)',carbs:15,tags:'snack chips'},
+  {name:'Potato chips',serving:'1 oz 15 chips',carbs:15,tags:'snack chips'},
   {name:'Pretzels',serving:'1 oz',carbs:23,tags:'snack'},
-  {name:'Popcorn, air-popped',serving:'3 cups',carbs:19,tags:'snack popcorn'},
+  {name:'Popcorn air-popped',serving:'3 cups',carbs:19,tags:'snack popcorn'},
   {name:'Chocolate chip cookie',serving:'1 medium',carbs:20,tags:'snack sweet dessert cookie'},
-  {name:'Ice cream, vanilla',serving:'1/2 cup',carbs:16,tags:'dessert sweet'},
+  {name:'Ice cream vanilla',serving:'half cup',carbs:16,tags:'dessert sweet'},
   {name:'Milk chocolate bar',serving:'1.5 oz',carbs:26,tags:'sweet dessert chocolate candy'},
   {name:'Glazed donut',serving:'1 medium',carbs:22,tags:'breakfast sweet donut'},
   {name:'Blueberry muffin',serving:'1 medium',carbs:45,tags:'breakfast sweet muffin'},
-  {name:'Granola bar',serving:'1 bar (42g)',carbs:29,tags:'snack breakfast bar'},
-  // Drinks
-  {name:'Orange juice',serving:'1 cup (240ml)',carbs:26,tags:'drink juice OJ'},
-  {name:'Apple juice',serving:'1 cup (240ml)',carbs:28,tags:'drink juice'},
+  {name:'Granola bar',serving:'1 bar 42g',carbs:29,tags:'snack breakfast bar'},
+  {name:'Orange juice',serving:'1 cup 240ml',carbs:26,tags:'drink juice OJ'},
+  {name:'Apple juice',serving:'1 cup 240ml',carbs:28,tags:'drink juice'},
   {name:'Cola soda',serving:'12 oz can',carbs:39,tags:'drink soda cola coke pepsi'},
-  {name:'Diet cola soda',serving:'12 oz can',carbs:0,tags:'drink soda diet cola'},
+  {name:'Diet cola soda',serving:'12 oz can',carbs:0,tags:'drink soda diet'},
   {name:'Sports drink',serving:'20 oz bottle',carbs:36,tags:'drink gatorade powerade sports'},
-  {name:'Beer, regular',serving:'12 oz',carbs:13,tags:'drink alcohol beer'},
-  {name:'Wine, red',serving:'5 oz glass',carbs:4,tags:'drink alcohol wine'},
-  // Fast food & brands (generic approximations)
+  {name:'Beer regular',serving:'12 oz',carbs:13,tags:'drink alcohol beer'},
+  {name:'Wine red',serving:'5 oz glass',carbs:4,tags:'drink alcohol wine'},
   {name:'Cheeseburger',serving:'1 regular',carbs:33,tags:'fast food burger mcdonalds wendys'},
   {name:'Big Mac style burger',serving:'1 sandwich',carbs:45,tags:'fast food burger mcdonalds'},
-  {name:'Chicken sandwich, fast food',serving:'1 sandwich',carbs:40,tags:'fast food chicken sandwich'},
-  {name:'Cheese pizza slice',serving:'1 slice (1/8 of 14")',carbs:36,tags:'pizza italian cheese'},
-  {name:'Pepperoni pizza slice',serving:'1 slice (1/8 of 14")',carbs:36,tags:'pizza italian pepperoni'},
-  {name:'Sub sandwich, 6"',serving:'6-inch',carbs:46,tags:'fast food subway sandwich sub'},
-  {name:'Burrito, bean & rice',serving:'1 medium',carbs:66,tags:'fast food mexican chipotle burrito'},
-  {name:'Taco, hard shell',serving:'1 taco',carbs:13,tags:'fast food mexican taco bell'},
-  {name:'Pancakes',serving:'2 medium (4")',carbs:30,tags:'breakfast pancake'},
-  {name:'Waffle, homestyle',serving:'1 waffle',carbs:25,tags:'breakfast waffle'},
-  {name:'Latte, whole milk',serving:'12 oz',carbs:14,tags:'drink coffee starbucks latte'},
-  {name:'Caramel Frappuccino',serving:'16 oz (grande)',carbs:54,tags:'drink coffee starbucks frappuccino sweet'},
+  {name:'Chicken sandwich',serving:'1 sandwich',carbs:40,tags:'fast food chicken sandwich'},
+  {name:'Cheese pizza slice',serving:'1/8 of 14in pie',carbs:36,tags:'pizza italian cheese'},
+  {name:'Pepperoni pizza slice',serving:'1/8 of 14in pie',carbs:36,tags:'pizza italian pepperoni'},
+  {name:'Sub sandwich 6in',serving:'6 inch',carbs:46,tags:'fast food subway sandwich sub'},
+  {name:'Burrito bean and rice',serving:'1 medium',carbs:66,tags:'fast food mexican chipotle burrito'},
+  {name:'Hard shell taco',serving:'1 taco',carbs:13,tags:'fast food mexican taco bell'},
+  {name:'Pancakes',serving:'2 medium',carbs:30,tags:'breakfast pancake'},
+  {name:'Waffle',serving:'1 waffle',carbs:25,tags:'breakfast waffle'},
+  {name:'Latte whole milk',serving:'12 oz',carbs:14,tags:'drink coffee starbucks latte'},
+  {name:'Caramel Frappuccino',serving:'16 oz grande',carbs:54,tags:'drink coffee starbucks frappuccino sweet'},
   {name:'Hot chocolate',serving:'8 oz',carbs:32,tags:'drink chocolate cocoa'},
-  {name:'Peanut butter, smooth',serving:'2 tbsp',carbs:6,tags:'snack peanut butter'},
+  {name:'Peanut butter',serving:'2 tbsp',carbs:6,tags:'snack peanut butter pb'},
   {name:'Honey',serving:'1 tbsp',carbs:17,tags:'sweetener honey'},
-  {name:'Maple syrup',serving:'1 tbsp',carbs:13,tags:'sweetener syrup breakfast'},
+  {name:'Maple syrup',serving:'1 tbsp',carbs:13,tags:'sweetener syrup breakfast'}
 ];
 
-// ── NAV ───────────────────────────────────────────────────
-function showSection(id) {
-  E.sections.forEach(s => s.classList.remove('active'));
-  G('sec-' + id).classList.add('active');
-  E.navBtns.forEach(b => b.classList.remove('active'));
-  G('nav-' + id).classList.add('active');
-  window.scrollTo({top:0, behavior:'instant'});
-}
+function renderFoods(q){var query=(q||'').trim().toLowerCase(),list=query===''?foods.slice(0,24):foods.filter(function(f){return f.name.toLowerCase().indexOf(query)!==-1||(f.tags&&f.tags.toLowerCase().indexOf(query)!==-1)}),el=G('foodList');el.innerHTML='';if(!list.length){el.innerHTML='<div class="food-empty">No matches. Try another term or add a custom food below.</div>';return}list.forEach(function(f){var item=document.createElement('div');item.className='food-item';var info=document.createElement('div');info.className='food-info';info.innerHTML='<div class="food-name">'+f.name+'</div><div class="food-detail">'+f.serving+' &middot; '+f.carbs+'g carbs</div>';var ctrl=document.createElement('div');ctrl.className='food-ctrl';var port=document.createElement('input');port.type='number';port.className='portion';port.min='0';port.step='any';port.value='1';port.setAttribute('inputmode','decimal');port.setAttribute('aria-label','Servings of '+f.name);var btn=document.createElement('button');btn.type='button';btn.className='add-btn';btn.textContent='Add';btn.addEventListener('click',function(){var mult=parseFloat(port.value);if(!isFinite(mult)||mult<=0){toast('Enter a valid serving count');return}S.meal.push({name:f.name+(mult!==1?' x'+mult:''),carbs:f.carbs*mult});renderMeal();toast('Added')});ctrl.appendChild(port);ctrl.appendChild(btn);item.appendChild(info);item.appendChild(ctrl);el.appendChild(item)})}
 
-// ── THEME ─────────────────────────────────────────────────
-function setTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  E.themeIcon.textContent = t === 'dark' ? '☀️' : '🌙';
-}
-function toggleTheme() {
-  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-}
+function renderMeal(){if(!S.meal.length){G('mealBox').hidden=true;return}G('mealBox').hidden=false;var el=G('mealItems');el.innerHTML='';var total=0;S.meal.forEach(function(m,i){total+=m.carbs;var row=document.createElement('div');row.className='meal-item';var nm=document.createElement('span');nm.className='meal-name';nm.textContent=m.name;var gm=document.createElement('span');gm.className='meal-g';gm.textContent=fmt(m.carbs,1)+'g';var rm=document.createElement('button');rm.type='button';rm.className='rm-btn';rm.textContent='x';rm.setAttribute('aria-label','Remove '+m.name);rm.addEventListener('click',function(){S.meal.splice(i,1);renderMeal()});row.appendChild(nm);row.appendChild(gm);row.appendChild(rm);el.appendChild(row)});G('mealTotal').textContent=fmt(total,1)+' g'}
 
-// ── TOAST ─────────────────────────────────────────────────
-function toast(msg) {
-  E.toast.textContent = msg;
-  E.toast.classList.add('show');
-  clearTimeout(toast._t);
-  toast._t = setTimeout(() => E.toast.classList.remove('show'), 1800);
-}
-
-// ── VALIDATION ────────────────────────────────────────────
-function setErr(id, msg) {
-  const err = G(id + '-err');
-  const inp = G(id);
-  if (err) { err.textContent = msg || ''; }
-  if (inp) { inp.setAttribute('aria-invalid', msg ? 'true' : 'false'); }
-}
-function clearErrs() {
-  ['carbRatio','isf','tdd','carbs','curBg','tgtBg'].forEach(id => setErr(id,''));
-}
-
-function validate() {
-  clearErrs();
-  let ok = true;
-  const v = getInputs();
-
-  if (E.carbs.value === '' || !isFinite(v.carbs) || v.carbs < 0) {
-    if (E.carbs.value !== '') setErr('carbs', 'Enter a number 0 or more');
-    ok = false;
-  }
-  if (E.curBg.value === '' || !isFinite(v.curBg) || v.curBg <= 0) {
-    if (E.curBg.value !== '') setErr('curBg', 'Enter a positive number');
-    ok = false;
-  }
-  if (E.tgtBg.value === '' || !isFinite(v.tgtBg) || v.tgtBg <= 0) {
-    if (E.tgtBg.value !== '') setErr('tgtBg', 'Enter a positive number');
-    ok = false;
-  }
-
-  if (S.mode === 'manual') {
-    if (E.carbRatio.value === '' || !isFinite(v.carbRatio) || v.carbRatio <= 0) {
-      if (E.carbRatio.value !== '') setErr('carbRatio', 'Must be greater than zero');
-      ok = false;
-    }
-    if (E.isf.value === '' || !isFinite(v.isf) || v.isf <= 0) {
-      if (E.isf.value !== '') setErr('isf', 'Must be greater than zero');
-      ok = false;
-    }
-  } else {
-    if (E.tdd.value === '' || !isFinite(v.tdd) || v.tdd <= 0) {
-      if (E.tdd.value !== '') setErr('tdd', 'Must be greater than zero');
-      ok = false;
-    }
-  }
-  return ok;
-}
-
-// ── CORE FUNCTIONS ────────────────────────────────────────
-function getInputs() {
-  return {
-    carbs:     parseFloat(E.carbs.value),
-    curBg:     parseFloat(E.curBg.value),
-    tgtBg:     parseFloat(E.tgtBg.value),
-    carbRatio: parseFloat(E.carbRatio.value),
-    isf:       parseFloat(E.isf.value),
-    tdd:       parseFloat(E.tdd.value),
-  };
-}
-
-function convertBgToMgdl(v) {
-  return S.unit === 'mmol' ? v * MMOL : v;
-}
-
-function estimateSettingsFromTdd(tdd) {
-  return { carbRatio: 500 / tdd, isf: 1800 / tdd };
-}
-
-function calculateDose({carbs, curBgMg, tgtBgMg, carbRatio, isfMg}) {
-  const carbDose = carbs / carbRatio;
-  const rawCorr  = (curBgMg - tgtBgMg) / isfMg;
-  const corrDose = Math.max(0, rawCorr);
-  const total    = Math.max(0, carbDose + corrDose);
-  return { carbDose, corrDose, total, skipped: rawCorr < 0 };
-}
-
-function roundDose(v, step) {
-  return isFinite(v) ? Math.round(v / step) * step : NaN;
-}
-
-function fmt(n, d = 2) {
-  return isFinite(n) ? n.toFixed(d) : '–';
-}
-
-// ── ESTIMATE READOUT ──────────────────────────────────────
-function updateEstReadout() {
-  if (S.mode !== 'estimate') { E.estReadout.hidden = true; return; }
-  const tdd = parseFloat(E.tdd.value);
-  if (!isFinite(tdd) || tdd <= 0) { E.estReadout.hidden = true; return; }
-  const {carbRatio, isf} = estimateSettingsFromTdd(tdd);
-  const isfDisp = S.unit === 'mmol' ? isf / MMOL : isf;
-  const uLbl    = S.unit === 'mmol' ? 'mmol/L' : 'mg/dL';
-  E.estCr.textContent  = fmt(carbRatio, 1) + ' g/unit';
-  E.estIsf.textContent = fmt(isfDisp, 1) + ' ' + uLbl + '/unit';
-  E.estReadout.hidden  = false;
-}
-
-// ── CALCULATE ─────────────────────────────────────────────
-function calculate() {
-  updateEstReadout();
-
-  if (!validate()) {
-    E.rPlaceholder.hidden = false;
-    E.rBody.hidden = true;
-    E.rPlaceholder.textContent = 'Check for errors in Settings and Meal tabs, then try again.';
-    showSection('results');
-    return;
-  }
-
-  const v = getInputs();
-  const curBgMg = convertBgToMgdl(v.curBg);
-  const tgtBgMg = convertBgToMgdl(v.tgtBg);
-
-  let carbRatio, isfMg;
-  if (S.mode === 'manual') {
-    carbRatio = v.carbRatio;
-    isfMg     = S.unit === 'mmol' ? v.isf * MMOL : v.isf;
-  } else {
-    const est = estimateSettingsFromTdd(v.tdd);
-    carbRatio = est.carbRatio;
-    isfMg     = est.isf;
-  }
-
-  const r = calculateDose({carbs: v.carbs, curBgMg, tgtBgMg, carbRatio, isfMg});
-
-  // Paint results
-  E.rCarb.textContent  = fmt(r.carbDose);
-  E.rCorr.textContent  = fmt(r.corrDose);
-  E.rTotal.textContent = fmt(r.total);
-  E.rHalf.textContent  = fmt(roundDose(r.total, 0.5), 1);
-  E.rWhole.textContent = fmt(roundDose(r.total, 1), 0);
-
-  // Correction note
-  if (r.skipped) {
-    E.corrNote.textContent = '⚠ BG below target — no correction added. Follow your hypoglycemia plan if low.';
-    E.corrNote.hidden = false;
-  } else {
-    E.corrNote.hidden = true;
-  }
-
-  // Formula breakdown
-  const uLbl = S.unit === 'mmol' ? 'mmol/L' : 'mg/dL';
-  let fml = '';
-  if (S.mode === 'estimate') {
-    fml += `carb ratio (est) = 500 ÷ ${fmt(v.tdd,1)} = ${fmt(carbRatio,2)} g/unit\n`;
-    fml += `ISF (est)        = 1800 ÷ ${fmt(v.tdd,1)} = ${fmt(isfMg,2)} mg/dL/unit\n\n`;
-  }
-  fml += `carb dose   = ${fmt(v.carbs,0)} ÷ ${fmt(carbRatio,2)} = ${fmt(r.carbDose)} units\n`;
-  const isfDisp = S.unit === 'mmol' ? isfMg / MMOL : isfMg;
-  fml += `correction  = max(0, (${fmt(v.curBg,1)} − ${fmt(v.tgtBg,1)}) ${uLbl} ÷ ${fmt(isfDisp,2)}) = ${fmt(r.corrDose)} units\n`;
-  fml += `total       = ${fmt(r.carbDose)} + ${fmt(r.corrDose)} = ${fmt(r.total)} units`;
-  E.formulaBox.textContent = fml;
-
-  E.rPlaceholder.hidden = true;
-  E.rBody.hidden = false;
-  showSection('results');
-}
-
-// ── COPY ──────────────────────────────────────────────────
-function copyResults() {
-  if (E.rBody.hidden) { toast('No results yet'); return; }
-  const v = getInputs();
-  const uLbl = S.unit === 'mmol' ? 'mmol/L' : 'mg/dL';
-  const lines = [
-    'Insulin Dose Calculator — Results',
-    `Mode: ${S.mode === 'manual' ? 'Manual ratios' : 'Estimated from TDD'}  |  Units: ${uLbl}`,
-    `Carbs: ${v.carbs} g  |  Current BG: ${v.curBg} ${uLbl}  |  Target BG: ${v.tgtBg} ${uLbl}`,
-    '',
-    `Carb dose:    ${E.rCarb.textContent} units`,
-    `Correction:   ${E.rCorr.textContent} units`,
-    `Total dose:   ${E.rTotal.textContent} units`,
-    `Nearest 0.5:  ${E.rHalf.textContent} units`,
-    `Nearest 1:    ${E.rWhole.textContent} units`,
-    '',
-    E.formulaBox.textContent,
-    '',
-    '(Not medical advice — confirm with your clinician)'
-  ].join('\n');
-
-  const ok = () => toast('Copied!');
-  const fail = () => toast('Copy failed');
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(lines).then(ok).catch(() => legacyCopy(lines, ok, fail));
-  } else { legacyCopy(lines, ok, fail); }
-}
-function legacyCopy(t, ok, fail) {
-  try {
-    const el = document.createElement('textarea');
-    el.value = t; el.style.position = 'absolute'; el.style.left = '-9999px';
-    document.body.appendChild(el); el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el); ok();
-  } catch(e) { fail(); }
-}
-
-// ── RESET ─────────────────────────────────────────────────
-function resetAll() {
-  ['carbRatio','isf','tdd','carbs','curBg','tgtBg','cName','cCarbs','cServ','foodQ']
-    .forEach(id => { const el = G(id); if (el) el.value = ''; });
-  clearErrs();
-  S.meal = [];
-  renderMeal();
-  renderFoods('');
-  E.rPlaceholder.hidden = false;
-  E.rPlaceholder.textContent = 'Fill in your meal and glucose values, then tap Calculate.';
-  E.rBody.hidden = true;
-  E.estReadout.hidden = true;
-  toast('Reset');
-}
-
-// ── UNIT / MODE UI ────────────────────────────────────────
-function applyUnit() {
-  const u = S.unit === 'mmol' ? '(mmol/L)' : '(mg/dL)';
-  const isfU = S.unit === 'mmol' ? '(mmol/L per unit)' : '(mg/dL per unit)';
-  E.bgLbl1.textContent = u;
-  E.bgLbl2.textContent = u;
-  E.isfUnitLbl.textContent = isfU;
-  updateEstReadout();
-}
-function applyMode() {
-  const manual = S.mode === 'manual';
-  E.manualCard.style.display = manual ? '' : 'none';
-  E.tddCard.style.display    = manual ? 'none' : '';
-  const estLabel = document.querySelector('label[for="m-estimate"]');
-  if (S.clinOnly) {
-    estLabel.classList.add('dimmed');
-    G('m-estimate').disabled = true;
-  } else {
-    estLabel.classList.remove('dimmed');
-    G('m-estimate').disabled = false;
-  }
-}
-
-// ── FOOD ──────────────────────────────────────────────────
-function renderFoods(q) {
-  const query = (q || '').trim().toLowerCase();
-  const list = query === ''
-    ? foods.slice(0, 24)
-    : foods.filter(f =>
-        f.name.toLowerCase().includes(query) ||
-        (f.tags && f.tags.toLowerCase().includes(query))
-      );
-
-  E.foodList.innerHTML = '';
-  if (!list.length) {
-    E.foodList.innerHTML = '<div class="food-empty">No matches. Try another term or add a custom food below.</div>';
-    return;
-  }
-  list.forEach(f => {
-    const item = document.createElement('div');
-    item.className = 'food-item';
-
-    const info = document.createElement('div');
-    info.className = 'food-info';
-    info.innerHTML = `<div class="food-name">${f.name}</div><div class="food-detail">${f.serving} &middot; ${f.carbs}g carbs</div>`;
-
-    const ctrl = document.createElement('div');
-    ctrl.className = 'food-ctrl';
-
-    const portIn = document.createElement('input');
-    portIn.type = 'number'; portIn.className = 'portion';
-    portIn.min = '0'; portIn.step = 'any'; portIn.value = '1';
-    portIn.setAttribute('aria-label', 'Servings of ' + f.name);
-    portIn.setAttribute('inputmode', 'decimal');
-
-    const addB = document.createElement('button');
-    addB.type = 'button'; addB.className = 'add-btn';
-    addB.textContent = 'Add';
-    addB.addEventListener('click', () => {
-      const mult = parseFloat(portIn.value);
-      if (!isFinite(mult) || mult <= 0) { toast('Enter a valid serving count'); return; }
-      S.meal.push({
-        name: f.name + (mult !== 1 ? ' \u00d7' + mult : ''),
-        carbs: f.carbs * mult
-      });
-      renderMeal(); toast('Added');
-    });
-
-    ctrl.appendChild(portIn);
-    ctrl.appendChild(addB);
-    item.appendChild(info);
-    item.appendChild(ctrl);
-    E.foodList.appendChild(item);
-  });
-}
-
-function renderMeal() {
-  if (!S.meal.length) { E.mealBox.hidden = true; return; }
-  E.mealBox.hidden = false;
-  E.mealItems.innerHTML = '';
-  let total = 0;
-  S.meal.forEach((m, i) => {
-    total += m.carbs;
-    const row = document.createElement('div');
-    row.className = 'meal-item';
-    const nm = document.createElement('span');
-    nm.className = 'meal-name'; nm.textContent = m.name;
-    const gm = document.createElement('span');
-    gm.className = 'meal-g'; gm.textContent = fmt(m.carbs,1) + 'g';
-    const rm = document.createElement('button');
-    rm.type = 'button'; rm.className = 'rm-btn';
-    rm.textContent = '\u00d7';
-    rm.setAttribute('aria-label', 'Remove ' + m.name);
-    rm.addEventListener('click', () => { S.meal.splice(i,1); renderMeal(); });
-    row.appendChild(nm); row.appendChild(gm); row.appendChild(rm);
-    E.mealItems.appendChild(row);
-  });
-  E.mealTotal.textContent = fmt(total,1) + ' g';
-}
-
-// ── INIT ──────────────────────────────────────────────────
-function init() {
-  // Theme from OS
-  setTheme(
-    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark' : 'light'
-  );
-
-  E.themeBtn.addEventListener('click', toggleTheme);
-
-  // Nav
-  ['settings','meal','results'].forEach(id => {
-    G('nav-' + id).addEventListener('click', () => showSection(id));
-  });
-
-  // Unit toggle
-  document.querySelectorAll('input[name="unit"]').forEach(r =>
-    r.addEventListener('change', () => { S.unit = r.value; applyUnit(); })
-  );
-
-  // Mode toggle
-  document.querySelectorAll('input[name="mode"]').forEach(r =>
-    r.addEventListener('change', () => { S.mode = r.value; applyMode(); })
-  );
-
-  // Clinician only
-  E.clinOnly.addEventListener('change', () => {
-    S.clinOnly = E.clinOnly.checked;
-    if (S.clinOnly && S.mode === 'estimate') {
-      G('m-manual').checked = true;
-      S.mode = 'manual';
-    }
-    applyMode();
-  });
-
-  // TDD live update
-  E.tdd.addEventListener('input', updateEstReadout);
-
-  // Buttons
-  E.calcBtn.addEventListener('click', calculate);
-  E.resetBtn.addEventListener('click', resetAll);
-  E.copyBtn.addEventListener('click', copyResults);
-  E.printBtn.addEventListener('click', () => window.print());
-
-  // Food
-  E.foodQ.addEventListener('input', e => renderFoods(e.target.value));
-  E.clearQ.addEventListener('click', () => { E.foodQ.value = ''; renderFoods(''); E.foodQ.focus(); });
-  E.clearMeal.addEventListener('click', () => { S.meal = []; renderMeal(); });
-  E.applyMeal.addEventListener('click', () => {
-    const total = S.meal.reduce((s,m) => s + m.carbs, 0);
-    E.carbs.value = fmt(total, 1);
-    toast('Applied to carbs field');
-    showSection('meal');
-    setTimeout(() => E.carbs.scrollIntoView({behavior:'smooth',block:'center'}), 100);
-  });
-  E.addCustom.addEventListener('click', () => {
-    const name  = E.cName.value.trim();
-    const carbs = parseFloat(E.cCarbs.value);
-    const serv  = E.cServ.value.trim() || '1 serving';
-    if (!name) { toast('Enter a food name'); return; }
-    if (!isFinite(carbs) || carbs < 0) { toast('Enter valid carbs'); return; }
-    foods.unshift({name, carbs, serving:serv, tags:'custom ' + name.toLowerCase()});
-    E.cName.value = ''; E.cCarbs.value = ''; E.cServ.value = '';
-    renderFoods(E.foodQ.value);
-    toast('Custom food added');
-  });
-
-  applyUnit();
-  applyMode();
-  renderFoods('');
-}
-
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded',function(){
+  setTheme(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  G('themeBtn').addEventListener('click',function(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')});
+  G('settingsToggle').addEventListener('click',toggleSettings);
+  G('settingsToggle').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSettings()}});
+  document.querySelectorAll('input[name="unit"]').forEach(function(r){r.addEventListener('change',function(){S.unit=r.value;applyUnit()})});
+  document.querySelectorAll('input[name="mode"]').forEach(function(r){r.addEventListener('change',function(){S.mode=r.value;applyMode()})});
+  G('clinOnly').addEventListener('change',function(){S.clinOnly=G('clinOnly').checked;if(S.clinOnly&&S.mode==='estimate'){G('m-manual').checked=true;S.mode='manual'}applyMode()});
+  G('tdd').addEventListener('input',updateEstReadout);
+  G('calcBtn').addEventListener('click',calculate);
+  G('resetBtn').addEventListener('click',resetAll);
+  G('copyBtn').addEventListener('click',copyResults);
+  G('printBtn').addEventListener('click',function(){window.print()});
+  G('foodQ').addEventListener('input',function(e){renderFoods(e.target.value)});
+  G('clearQ').addEventListener('click',function(){G('foodQ').value='';renderFoods('');G('foodQ').focus()});
+  G('clearMeal').addEventListener('click',function(){S.meal=[];renderMeal()});
+  G('applyMeal').addEventListener('click',function(){var total=S.meal.reduce(function(s,m){return s+m.carbs},0);G('carbs').value=fmt(total,1);toast('Applied to carbs field');G('carbs').scrollIntoView({behavior:'smooth',block:'center'})});
+  G('addCustom').addEventListener('click',function(){var name=G('cName').value.trim(),carbs=parseFloat(G('cCarbs').value),serv=G('cServ').value.trim()||'1 serving';if(!name){toast('Enter a food name');return}if(!isFinite(carbs)||carbs<0){toast('Enter valid carbs');return}foods.unshift({name:name,carbs:carbs,serving:serv,tags:'custom '+name.toLowerCase()});G('cName').value='';G('cCarbs').value='';G('cServ').value='';renderFoods(G('foodQ').value);toast('Custom food added')});
+  applyUnit();applyMode();renderFoods('');
+});
 </script>
-
-<!--
-DEVELOPER NOTES
-===============
-COLORS:     Edit :root { } and [data-theme="dark"] { } in <style>
-FORMULAS:   calculateDose(), estimateSettingsFromTdd(), convertBgToMgdl()
-FOOD LIST:  The `foods` array near the top of <script>
-LABELS:     Search the HTML for the text you want to change
-SECTIONS:   Three <div class="section"> blocks — Settings, Meal, Results
-BOTTOM NAV: .bottom-nav — add more tabs here if needed
--->
-
 </body>
 </html>
